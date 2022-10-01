@@ -15,11 +15,14 @@ TARGET = main
 USELIB = USE_DEV_LIB
 DEBUG = -D $(USELIB)
 ifeq ($(USELIB), USE_BCM2835_LIB)
-    LIB = -lbcm2835 -lm 
+    LIB = -lbcm2835 -lm
+    $(warning "Use bcm2835 lib")
 else ifeq ($(USELIB), USE_WIRINGPI_LIB)
-    LIB = -lwiringPi -lm 
+    LIB = -lwiringPi -lm
+    $(warning "Use wiringpi lib")
 else ifeq ($(USELIB), USE_DEV_LIB)
-    LIB = -lm 
+    LIB = -lm
+    $(warning "Use dev lib")
 endif
 
 
@@ -29,22 +32,22 @@ CFLAGS += $(MSG) $(DEBUG)
 
 ${TARGET}:${OBJ_O}
 	$(CC) $(CFLAGS) $(OBJ_O) -o $@ $(LIB)
-    
+
 ${DIR_BIN}/%.o:$(DIR_Examples)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ -I $(DIR_Config) -I $(DIR_GUI) -I $(DIR_OLED)
-    
+
 ${DIR_BIN}/%.o:$(DIR_OLED)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ -I $(DIR_Config)
-    
+
 ${DIR_BIN}/%.o:$(DIR_FONTS)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@
-    
+
 ${DIR_BIN}/%.o:$(DIR_GUI)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ -I $(DIR_Config)  -I $(DIR_OLED) -I $(DIR_Examples)
 
 ${DIR_BIN}/%.o:$(DIR_Config)/%.c
 	$(CC) $(CFLAGS) -c  $< -o $@ $(LIB)
-	
+
 clean :
-	rm $(DIR_BIN)/*.* 
-	rm $(TARGET) 
+	rm $(DIR_BIN)/*.*
+	rm $(TARGET)
