@@ -1,11 +1,11 @@
 /*****************************************************************************
-* | File      	:   OLED_1in5.c
+* | File      	:   OLED_0in95_rgb.c
 * | Author      :   Waveshare team
-* | Function    :   1.5inch OLED Module Drive function
+* | Function    :   0.95inch RGB OLED Module Drive function
 * | Info        :
 *----------------
 * |	This version:   V2.0
-* | Date        :   2020-08-15
+* | Date        :   2020-08-17
 * | Info        :
 * -----------------------------------------------------------------------------
 #
@@ -28,7 +28,7 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-#include "OLED_1in5.h"
+#include "OLED_0in95_rgb.h"
 #include "stdio.h"
 
 /*******************************************************************************
@@ -54,19 +54,14 @@ static void OLED_WriteReg(uint8_t Reg)
 #if USE_SPI
     OLED_DC_0;
     DEV_SPI_WriteByte(Reg);
-#elif USE_IIC
-    I2C_Write_Byte(Reg,IIC_CMD);
 #endif
 }
 
 static void OLED_WriteData(uint8_t Data)
-{
+{   
 #if USE_SPI
     OLED_DC_1;
-     printf("Val:%#x\n", Value);
     DEV_SPI_WriteByte(Data);
-#elif USE_IIC
-    I2C_Write_Byte(Data,IIC_RAM);
 #endif
 }
 
@@ -76,63 +71,50 @@ function:
 *******************************************************************************/
 static void OLED_InitReg(void)
 {
-    OLED_WriteReg(0xae);//--turn off oled panel
-
-    OLED_WriteReg(0x15);    //   set column address
-    OLED_WriteReg(0x00);    //  start column   0
-    OLED_WriteReg(0x7f);    //  end column   127
-
-    OLED_WriteReg(0x75);    //   set row address
-    OLED_WriteReg(0x00);    //  start row   0
-    OLED_WriteReg(0x7f);    //  end row   127
-
-    OLED_WriteReg(0x81);  // set contrast control
-    OLED_WriteReg(0x80);
-
-    OLED_WriteReg(0xa0);    // gment remap
-    OLED_WriteReg(0x51);   //51
-
-    OLED_WriteReg(0xa1);  // start line
-    OLED_WriteReg(0x00);
-
-    OLED_WriteReg(0xa2);  // display offset
-    OLED_WriteReg(0x00);
-
-    OLED_WriteReg(0xa4);    // rmal display
-    OLED_WriteReg(0xa8);    // set multiplex ratio
-    OLED_WriteReg(0x7f);
-
-    OLED_WriteReg(0xb1);  // set phase leghth
-    OLED_WriteReg(0xf1);
-
-    OLED_WriteReg(0xb3);  // set dclk
-    OLED_WriteReg(0x00);  //80Hz:0xc1 90Hz:0xe1   100Hz:0x00   110Hz:0x30 120Hz:0x50   130Hz:0x70     01
-
-    OLED_WriteReg(0xab);  //
-    OLED_WriteReg(0x01);  //
-
-    OLED_WriteReg(0xb6);  // set phase leghth
-    OLED_WriteReg(0x0f);
-
-    OLED_WriteReg(0xbe);
-    OLED_WriteReg(0x0f);
-
-    OLED_WriteReg(0xbc);
-    OLED_WriteReg(0x08);
-
-    OLED_WriteReg(0xd5);
-    OLED_WriteReg(0x62);
-
-    OLED_WriteReg(0xfd);
-    OLED_WriteReg(0x12);
-
+    OLED_WriteReg(DISPLAY_OFF);          //Display Off
+    OLED_WriteReg(SET_CONTRAST_A);       //Set contrast for color A
+    OLED_WriteReg(0xFF);                     //145 0x91
+    OLED_WriteReg(SET_CONTRAST_B);       //Set contrast for color B
+    OLED_WriteReg(0xFF);                     //80 0x50
+    OLED_WriteReg(SET_CONTRAST_C);       //Set contrast for color C
+    OLED_WriteReg(0xFF);                     //125 0x7D
+    OLED_WriteReg(MASTER_CURRENT_CONTROL);//master current control
+    OLED_WriteReg(0x06);                     //6
+    OLED_WriteReg(SET_PRECHARGE_SPEED_A);//Set Second Pre-change Speed For ColorA
+    OLED_WriteReg(0x64);                     //100
+    OLED_WriteReg(SET_PRECHARGE_SPEED_B);//Set Second Pre-change Speed For ColorB
+    OLED_WriteReg(0x78);                     //120
+    OLED_WriteReg(SET_PRECHARGE_SPEED_C);//Set Second Pre-change Speed For ColorC
+    OLED_WriteReg(0x64);                     //100
+    OLED_WriteReg(SET_REMAP);            //set remap & data format
+    OLED_WriteReg(0x72);                      //normal 0x72   180 0x60 
+    OLED_WriteReg(SET_DISPLAY_START_LINE);//Set display Start Line
+    OLED_WriteReg(0x0);
+    OLED_WriteReg(SET_DISPLAY_OFFSET);   //Set display offset
+    OLED_WriteReg(0x0);
+    OLED_WriteReg(NORMAL_DISPLAY);       //Set display mode
+    OLED_WriteReg(SET_MULTIPLEX_RATIO);  //Set multiplex ratio
+    OLED_WriteReg(0x3F);
+    OLED_WriteReg(SET_MASTER_CONFIGURE); //Set master configuration
+    OLED_WriteReg(0x8E);
+    OLED_WriteReg(POWER_SAVE_MODE);      //Set Power Save Mode
+    OLED_WriteReg(0x00);                     //0x00
+    OLED_WriteReg(PHASE_PERIOD_ADJUSTMENT);//phase 1 and 2 period adjustment
+    OLED_WriteReg(0x31);                     //0x31
+    OLED_WriteReg(DISPLAY_CLOCK_DIV);    //display clock divider/oscillator frequency
+    OLED_WriteReg(0xF0);
+    OLED_WriteReg(SET_PRECHARGE_VOLTAGE);//Set Pre-Change Level
+    OLED_WriteReg(0x3A);
+    OLED_WriteReg(SET_V_VOLTAGE);        //Set vcomH
+    OLED_WriteReg(0x3E);
+    OLED_WriteReg(DEACTIVE_SCROLLING);   //disable scrolling
 }
 
 /********************************************************************************
 function:
             initialization
 ********************************************************************************/
-void OLED_1in5_Init(void)
+void OLED_0in95_rgb_Init(void)
 {
     //Hardware reset
     OLED_Reset();
@@ -146,37 +128,21 @@ void OLED_1in5_Init(void)
 }
 
 /********************************************************************************
-function:   Set the display Window(Xstart, Ystart, Xend, Yend)
-parameter:
-        xStart :   X direction Start coordinates
-        Ystart :   Y direction Start coordinates
-        Xend   :   X direction end coordinates
-        Yend   :   Y direction end coordinates
-********************************************************************************/
-static void OLED_SetWindow(UBYTE Xstart, UBYTE Ystart, UBYTE Xend, UBYTE Yend)
-{
-    if((Xstart > OLED_1in5_WIDTH) || (Ystart > OLED_1in5_HEIGHT) ||
-       (Xend > OLED_1in5_WIDTH) || (Yend > OLED_1in5_HEIGHT))
-        return;
-
-    OLED_WriteReg(0x15);
-    OLED_WriteReg(Xstart/2);
-    OLED_WriteReg(Xend/2 - 1);
-
-    OLED_WriteReg(0x75);
-    OLED_WriteReg(Ystart);
-    OLED_WriteReg(Yend - 1);
-}
-
-/********************************************************************************
 function:
             Clear screen
 ********************************************************************************/
-void OLED_1in5_Clear(void)
+void OLED_0in95_rgb_Clear(void)
 {
     UWORD i;
-    OLED_SetWindow(0, 0, 128, 128);
-    for(i=0; i<OLED_1in5_WIDTH*OLED_1in5_HEIGHT/2; i++){
+
+    OLED_WriteReg(SET_COLUMN_ADDRESS);
+    OLED_WriteReg(0);         //cloumn start address
+    OLED_WriteReg(OLED_0in95_RGB_WIDTH - 1); //cloumn end address
+    OLED_WriteReg(SET_ROW_ADDRESS);
+    OLED_WriteReg(0);         //page atart address
+    OLED_WriteReg(OLED_0in95_RGB_HEIGHT - 1); //page end address  
+
+    for(i=0; i<OLED_0in95_RGB_WIDTH*OLED_0in95_RGB_HEIGHT*2; i++){
         OLED_WriteData(0x00);
     }
 }
@@ -184,14 +150,21 @@ void OLED_1in5_Clear(void)
 /********************************************************************************
 function:   Update all memory to OLED
 ********************************************************************************/
-void OLED_1in5_Display(UBYTE *Image)
+void OLED_0in95_rgb_Display(UBYTE *Image)
 {
     UWORD i, j, temp;
-    OLED_SetWindow(0, 0, 128, 128);
-    for(i=0; i<OLED_1in5_HEIGHT; i++)
-        for(j=0; j<OLED_1in5_WIDTH/2; j++)
+
+    OLED_WriteReg(SET_COLUMN_ADDRESS);
+    OLED_WriteReg(0);         //cloumn start address
+    OLED_WriteReg(OLED_0in95_RGB_WIDTH - 1); //cloumn end address
+    OLED_WriteReg(SET_ROW_ADDRESS);
+    OLED_WriteReg(0);         //page atart address
+    OLED_WriteReg(OLED_0in95_RGB_HEIGHT - 1); //page end address  
+     
+    for(i=0; i<OLED_0in95_RGB_HEIGHT; i++)
+        for(j=0; j<OLED_0in95_RGB_WIDTH*2; j++)
         {
-            temp = Image[j + i*64];
+            temp = Image[j + i*OLED_0in95_RGB_WIDTH*2];
             OLED_WriteData(temp);
         }
 }

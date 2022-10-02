@@ -10,22 +10,14 @@ OBJ_O = $(patsubst %.c,${DIR_BIN}/%.o,$(notdir ${OBJ_C}))
 
 TARGET = main
 
-#USELIB = USE_BCM2835_LIB
-USELIB = USE_WIRINGPI_LIB
-# USELIB = USE_DEV_LIB
+USELIB = USE_RK_LIB
 DEBUG = -D $(USELIB)
-ifeq ($(USELIB), USE_BCM2835_LIB)s
-    LIB = -lbcm2835 -lm
-    $(warning "Use bcm2835 lib")
-else ifeq ($(USELIB), USE_WIRINGPI_LIB)
-    LIB = -lwiringPi -lm
-    $(warning "Use wiringpi lib")
-else ifeq ($(USELIB), USE_DEV_LIB)
+ifeq ($(USELIB), USE_RK_LIB)
     LIB = -lm
-    $(warning "Use dev lib")
+    $(warning "Use rk dev lib")
 endif
 
-CC = gcc
+CC = aarch64-linux-gnu-gcc
 MSG = -g -O0 -Wall
 CFLAGS += $(MSG) $(DEBUG)
 

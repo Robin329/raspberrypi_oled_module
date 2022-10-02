@@ -18,15 +18,16 @@ uint32_t fd;
 *****************************************/
 void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
+  printf("%s:%d", #Pin, Value);
 #ifdef USE_BCM2835_LIB
     bcm2835_gpio_write(Pin, Value);
-    
+
 #elif USE_WIRINGPI_LIB
     digitalWrite(Pin, Value);
-    
+
 #elif USE_DEV_LIB
     SYSFS_GPIO_Write(Pin, Value);
-    
+
 #endif
 }
 
@@ -35,10 +36,10 @@ UBYTE DEV_Digital_Read(UWORD Pin)
     UBYTE Read_value = 0;
 #ifdef USE_BCM2835_LIB
     Read_value = bcm2835_gpio_lev(Pin);
-    
+
 #elif USE_WIRINGPI_LIB
     Read_value = digitalRead(Pin);
-    
+
 #elif USE_DEV_LIB
     Read_value = SYSFS_GPIO_Read(Pin);
 #endif
@@ -47,7 +48,7 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
-#ifdef USE_BCM2835_LIB  
+#ifdef USE_BCM2835_LIB
     if(Mode == 0 || Mode == BCM2835_GPIO_FSEL_INPT){
         bcm2835_gpio_fsel(Pin, BCM2835_GPIO_FSEL_INPT);
     }else {
@@ -57,7 +58,7 @@ void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
     if(Mode == 0 || Mode == INPUT){
         pinMode(Pin, INPUT);
         pullUpDnControl(Pin, PUD_UP);
-    }else{ 
+    }else{
         pinMode(Pin, OUTPUT);
         // printf (" %d OUT \r\n",Pin);
     }
@@ -70,7 +71,7 @@ void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
         SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_OUT);
         // printf("OUT Pin = %d\r\n",Pin);
     }
-#endif   
+#endif
 }
 
 /**
@@ -104,7 +105,7 @@ Info:
 ******************************************************************************/
 UBYTE DEV_ModuleInit(void)
 {
-	
+
  #ifdef USE_BCM2835_LIB
     if(!bcm2835_init()) {
         printf("bcm2835 init failed  !!! \r\n");
@@ -114,7 +115,7 @@ UBYTE DEV_ModuleInit(void)
     }
 	DEV_GPIO_Init();
     #if USE_SPI
-        printf("USE_SPI\r\n");  
+        printf("USE_SPI\r\n");
         bcm2835_spi_begin();                                         //Start spi interface, set spi pin for the reuse function
         bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);     //High first transmission
         bcm2835_spi_setDataMode(BCM2835_SPI_MODE3);                  //spi mode 3
@@ -125,13 +126,13 @@ UBYTE DEV_ModuleInit(void)
         OLED_DC_0;
         OLED_CS_0;
         printf("USE_IIC\r\n");
-        bcm2835_i2c_begin();	
+        bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(0x3c);
          /**********************************************************/
     #endif
-    
-#elif USE_WIRINGPI_LIB  
-    //if(wiringPiSetup() < 0) {//use wiringpi Pin number table  
+
+#elif USE_WIRINGPI_LIB
+    //if(wiringPiSetup() < 0) {//use wiringpi Pin number table
     if(wiringPiSetupGpio() < 0) { //use BCM2835 Pin number table
         printf("set wiringPi lib failed	!!! \r\n");
         return 1;
@@ -140,7 +141,7 @@ UBYTE DEV_ModuleInit(void)
     }
 	DEV_GPIO_Init();
     #if USE_SPI
-        printf("USE_SPI\r\n");       
+        printf("USE_SPI\r\n");
         //wiringPiSPISetup(0,9000000);
         wiringPiSPISetupMode(0, 9000000, 3);
     #elif USE_IIC
@@ -149,14 +150,14 @@ UBYTE DEV_ModuleInit(void)
         printf("USE_IIC\r\n");
         fd = wiringPiI2CSetup(0x3c);
     #endif
-   
+
 #elif USE_DEV_LIB
 	DEV_GPIO_Init();
     #if USE_SPI
-        printf("USE_SPI\r\n"); 
+        printf("USE_SPI\r\n");
         DEV_HARDWARE_SPI_beginSet("/dev/spidev0.0",SPI_MODE_3,10000000);
-    #elif USE_IIC   
-        printf("USE_IIC\r\n");		
+    #elif USE_IIC
+        printf("USE_IIC\r\n");
         OLED_DC_0;
         OLED_CS_0;
         DEV_HARDWARE_I2C_begin("/dev/i2c-1");
@@ -168,16 +169,17 @@ UBYTE DEV_ModuleInit(void)
 
 void DEV_SPI_WriteByte(uint8_t Value)
 {
+  printf("Reg:%#x\n", Value);
 #ifdef USE_BCM2835_LIB
     bcm2835_spi_transfer(Value);
-    
+
 #elif USE_WIRINGPI_LIB
     wiringPiSPIDataRW(0,&Value,1);
-    
+
 #elif USE_DEV_LIB
 	// printf("write data is %d\r\n", Value);
     DEV_HARDWARE_SPI_TransferByte(Value);
-    
+
 #endif
 }
 
@@ -187,13 +189,13 @@ void DEV_SPI_Write_nByte(uint8_t *pData, uint32_t Len)
 #ifdef USE_BCM2835_LIB
     char rData[Len];
     bcm2835_spi_transfernb(pData,rData,Len);
-    
+
 #elif USE_WIRINGPI_LIB
     wiringPiSPIDataRW(0, pData, Len);
-    
+
 #elif USE_DEV_LIB
     DEV_HARDWARE_SPI_Transfer(pData, Len);
-    
+
 #endif
 }
 
