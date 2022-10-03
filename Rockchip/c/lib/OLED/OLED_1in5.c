@@ -63,7 +63,7 @@ static void OLED_WriteData(uint8_t Data)
 {
 #if USE_SPI
     OLED_DC_1;
-     printf("Val:%#x\n", Value);
+    // printf("Val:%#x\n", Data);
     DEV_SPI_WriteByte(Data);
 #elif USE_IIC
     I2C_Write_Byte(Data,IIC_RAM);

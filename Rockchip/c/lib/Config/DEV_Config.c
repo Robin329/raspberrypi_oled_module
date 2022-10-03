@@ -10,7 +10,14 @@
 *
 ******************************************************************************/
 #include "DEV_Config.h"
+
 #include <unistd.h>
+
+#include "dev_hardware_SPI.h"
+#include "dev_hardware_i2c.h"
+
+
+#define SPI_DEV_NAME "/dev/spidev1.0"
 
 uint32_t fd;
 /*****************************************
@@ -18,7 +25,7 @@ uint32_t fd;
 *****************************************/
 void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
-  printf("%s:%d", #Pin, Value);
+  // printf("%d:%d\r\n", Pin, Value);
 #ifdef USE_RK_LIB
     SYSFS_GPIO_Write(Pin, Value);
 #endif
@@ -36,14 +43,14 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
 #ifdef  USE_RK_LIB
-    SYSFS_GPIO_Export(Pin);
-    if(Mode == 0 || Mode == SYSFS_GPIO_IN){
-        SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_IN);
-        // printf("IN Pin = %d\r\n",Pin);
-    }else{
-        SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_OUT);
-        // printf("OUT Pin = %d\r\n",Pin);
-    }
+  SYSFS_GPIO_Export(Pin);
+  if (Mode == 0 || Mode == SYSFS_GPIO_IN) {
+    SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_IN);
+    printf("IN Pin = %d\r\n", Pin);
+  } else {
+    SYSFS_GPIO_Direction(Pin, SYSFS_GPIO_OUT);
+    printf("OUT Pin = %d\r\n", Pin);
+  }
 #endif
 }
 
@@ -77,33 +84,33 @@ UBYTE DEV_ModuleInit(void)
 
  #ifdef  USE_RK_LIB
 	DEV_GPIO_Init();
-    #if USE_SPI
-        printf("USE_SPI\r\n");
-        DEV_HARDWARE_SPI_beginSet("/dev/spidev0.0",SPI_MODE_3,10000000);
-    #elif USE_IIC
-        printf("USE_IIC\r\n");
+#if USE_SPI
+        // printf("USE_SPI\r\n");
+        DEV_HARDWARE_SPI_beginSet(SPI_DEV_NAME, SPI_MODE_3, 10000000);
+#elif USE_IIC
+        // printf("USE_IIC\r\n");
         OLED_DC_0;
         OLED_CS_0;
         DEV_HARDWARE_I2C_begin("/dev/i2c-1");
         DEV_HARDWARE_I2C_setSlaveAddress(0x3c);
-    #endif
+#endif
 #endif
     return 0;
 }
 
 void DEV_SPI_WriteByte(uint8_t Value)
 {
-  printf("Reg:%#x\n", Value);
-#ifdef  USE_RK_LIB
-	// printf("write data is %d\r\n", Value);
-    DEV_HARDWARE_SPI_TransferByte(Value);
+  // printf("Reg:%#x\r\n", Value);
+#ifdef USE_RK_LIB
+  // printf("write data is %d\r\n", Value);
+  DEV_HARDWARE_SPI_TransferByte(Value);
 
 #endif
 }
 
 void DEV_SPI_Write_nByte(uint8_t *pData, uint32_t Len)
 {
-	printf("data is %s", pData);
+  // printf("data is %s", pData);
 #ifdef  USE_RK_LIB
     DEV_HARDWARE_SPI_Transfer(pData, Len);
 

@@ -8,7 +8,7 @@
 *----------------
 * |	This version:   V2.4
 * | Date        :   2020-08-17
-* | Info        :   
+* | Info        :
 * -----------------------------------------------------------------------------
 * V2.4(2020-08-17):
 * 1.Add GUI_ReadBmp_65K()
@@ -152,7 +152,7 @@ UBYTE GUI_ReadBmp_4Gray(const char *path, UWORD Xstart, UWORD Ystart)
     FILE *fp;                     //Define a file pointer
     BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
     BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
-    
+
     // Binary file open
     if((fp = fopen(path, "rb")) == NULL) {
         Debug("Cann't open the file!\n");
@@ -181,7 +181,7 @@ UBYTE GUI_ReadBmp_4Gray(const char *path, UWORD Xstart, UWORD Ystart)
     UWORD x, y;
     UBYTE Rdata;
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
-    
+
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
         for(x = 0; x < Bmp_Width_Byte; x++) {//Show a line in the line
             if(fread((char *)&Rdata, 1, 1, fp) != 1) {
@@ -194,7 +194,7 @@ UBYTE GUI_ReadBmp_4Gray(const char *path, UWORD Xstart, UWORD Ystart)
         }
     }
     fclose(fp);
-    
+
     // Refresh the image to the display buffer based on the displayed orientation
     UBYTE color, temp;
     printf("bmpInfoHeader.biWidth = %d\r\n",bmpInfoHeader.biWidth);
@@ -204,8 +204,8 @@ UBYTE GUI_ReadBmp_4Gray(const char *path, UWORD Xstart, UWORD Ystart)
             if(x > Paint.Width || y > Paint.Height) {
                 break;
             }
-            temp = Image[x/2 + y * bmpInfoHeader.biWidth/2] >> ((x%2)? 0:4);//0xf 0x8 0x7 0x0 
-            color = temp>>2;                           //11  10  01  00  
+            temp = Image[x / 2 + y * bmpInfoHeader.biWidth / 2] >> ((x % 2) ? 0 : 4); // 0xf 0x8 0x7 0x0
+            color = temp >> 2;                                                        // 11  10  01  00
             Paint_SetPixel(Xstart + x, Ystart + y, color);
         }
     }
@@ -217,7 +217,7 @@ UBYTE GUI_ReadBmp_16Gray(const char *path, UWORD Xstart, UWORD Ystart)
     FILE *fp;                     //Define a file pointer
     BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
     BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
-    
+
     // Binary file open
     if((fp = fopen(path, "rb")) == NULL) {
         Debug("Cann't open the file!\n");
@@ -246,7 +246,7 @@ UBYTE GUI_ReadBmp_16Gray(const char *path, UWORD Xstart, UWORD Ystart)
     UWORD x, y;
     UBYTE Rdata;
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
-    
+
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
         for(x = 0; x < Bmp_Width_Byte; x++) {//Show a line in the line
             if(fread((char *)&Rdata, 1, 1, fp) != 1) {
@@ -257,7 +257,7 @@ UBYTE GUI_ReadBmp_16Gray(const char *path, UWORD Xstart, UWORD Ystart)
         }
     }
     fclose(fp);
-    
+
     // Refresh the image to the display buffer based on the displayed orientation
     UBYTE color;
     printf("bmpInfoHeader.biWidth = %d\r\n",bmpInfoHeader.biWidth);
@@ -280,7 +280,7 @@ UBYTE GUI_ReadBmp_65K(const char *path, UWORD Xstart, UWORD Ystart)
     FILE *fp;                     //Define a file pointer
     BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
     BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
-    
+
     // Binary file open
     if((fp = fopen(path, "rb")) == NULL) {
         Debug("Cann't open the file!\n");
@@ -309,7 +309,7 @@ UBYTE GUI_ReadBmp_65K(const char *path, UWORD Xstart, UWORD Ystart)
     UWORD x, y;
     UBYTE Rdata;
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
-    
+
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
         for(x = 0; x < Bmp_Width_Byte; x++) {//Show a line in the line
             if(fread((char *)&Rdata, 1, 1, fp) != 1) {
@@ -320,7 +320,7 @@ UBYTE GUI_ReadBmp_65K(const char *path, UWORD Xstart, UWORD Ystart)
         }
     }
     fclose(fp);
-    
+
     // Refresh the image to the display buffer based on the displayed orientation
     UWORD color;
     printf("bmpInfoHeader.biWidth = %d\r\n",bmpInfoHeader.biWidth);
@@ -344,7 +344,7 @@ UBYTE GUI_ReadBmp_RGB_7Color(const char *path, UWORD Xstart, UWORD Ystart)
     FILE *fp;                     //Define a file pointer
     BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
     BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
-    
+
     // Binary file open
     if((fp = fopen(path, "rb")) == NULL) {
         Debug("Cann't open the file!\n");
@@ -356,7 +356,7 @@ UBYTE GUI_ReadBmp_RGB_7Color(const char *path, UWORD Xstart, UWORD Ystart)
     fread(&bmpFileHeader, sizeof(BMPFILEHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 14
     fread(&bmpInfoHeader, sizeof(BMPINFOHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 50
     printf("pixel = %d * %d\r\n", bmpInfoHeader.biWidth, bmpInfoHeader.biHeight);
-	
+
     UDOUBLE Image_Byte = bmpInfoHeader.biWidth * bmpInfoHeader.biHeight * 3;
     UBYTE Image[Image_Byte];
     memset(Image, 0xFF, Image_Byte);
@@ -371,7 +371,7 @@ UBYTE GUI_ReadBmp_RGB_7Color(const char *path, UWORD Xstart, UWORD Ystart)
     UWORD x, y;
     UBYTE Rdata[3];
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
-    
+
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
         for(x = 0; x < bmpInfoHeader.biWidth ; x++) {//Show a line in the line
             if(fread((char *)Rdata, 1, 1, fp) != 1) {
@@ -405,7 +405,7 @@ UBYTE GUI_ReadBmp_RGB_7Color(const char *path, UWORD Xstart, UWORD Ystart)
         }
     }
     fclose(fp);
-   
+
     // Refresh the image to the display buffer based on the displayed orientation
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {
         for(x = 0; x < bmpInfoHeader.biWidth; x++) {

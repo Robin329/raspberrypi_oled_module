@@ -8,8 +8,8 @@
 *----------------
 * |	This version:   V2.0
 * | Date        :   2020-06-17
-* | Info        :   
-*   1.USE_DEBUG -> DEBUG, If you need to see the debug information, 
+* | Info        :
+*   1.USE_DEBUG -> DEBUG, If you need to see the debug information,
 *    clear the execution: make DEBUG=-DDEBUG
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -36,11 +36,11 @@
 #define __DEBUG_H
 
 #include <stdio.h>
-
+#define DEBUG 1
 #if DEBUG
-	#define Debug(__info,...) printf("Debug: " __info,##__VA_ARGS__)
+#define Debug(__info, ...) printf("[%s:%d]Debug: " __info, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
-	#define Debug(__info,...)  
+#define Debug(__info, ...)
 #endif
 
 #endif

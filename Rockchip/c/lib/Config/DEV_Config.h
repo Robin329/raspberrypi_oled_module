@@ -30,20 +30,30 @@
 #define UWORD   uint16_t
 #define UDOUBLE uint32_t
 
-//OLED Define
-#define OLED_CS         8
-#define OLED_RST        27
-#define OLED_DC         25
+/* OLED Define
+ *    绿 - GPIO0_B4_d（12） - RST
+ *    棕色 - GPIO0_B1_d （9）- DC
+ *    蓝 - GPIO2_C7(87) - CS
+ *    白色 - GPIO2_C5 - DIN
+ *    灰色 - GPIO2_C6 - CLK
+ *    黄 - VCC3.3 - VCC3.3
+ *    黑 - GND - GND
+ */
+#define OLED_CS 87
+#define OLED_RST 12
+#define OLED_DC 9
 
+#define OLED_CS_0 DEV_Digital_Write(OLED_CS, 0)
 
-#define OLED_CS_0      DEV_Digital_Write(OLED_CS,0)
-#define OLED_CS_1      DEV_Digital_Write(OLED_CS,1)
+#define OLED_CS_1 DEV_Digital_Write(OLED_CS, 1)
 
-#define OLED_RST_0      DEV_Digital_Write(OLED_RST,0)
-#define OLED_RST_1      DEV_Digital_Write(OLED_RST,1)
+#define OLED_RST_0 DEV_Digital_Write(OLED_RST, 0)
 
-#define OLED_DC_0       DEV_Digital_Write(OLED_DC,0)
-#define OLED_DC_1       DEV_Digital_Write(OLED_DC,1)
+#define OLED_RST_1 DEV_Digital_Write(OLED_RST, 1)
+
+#define OLED_DC_0 DEV_Digital_Write(OLED_DC, 0)
+
+#define OLED_DC_1 DEV_Digital_Write(OLED_DC, 1)
 
 /*------------------------------------------------------------------------------------------------------*/
 

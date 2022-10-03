@@ -29,11 +29,9 @@ int main(int argc, char *argv[])
 	printf("%s OLED Moudule\r\n", argv[1]);
 
     if(strcmp(argv[1], "1.5") == 0)
-        OLED_1in5_test();
+      OLED_1in5_test();
+    else
+      printf("error: can not find the OLED\r\n");
 
-	else
-		printf("error: can not find the OLED\r\n");
-
-	return 0;
-
+    return 0;
 }
