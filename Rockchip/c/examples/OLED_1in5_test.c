@@ -29,9 +29,7 @@
 #
 ******************************************************************************/
 #include "OLED_1in5.h"
-
 #include "test.h"
-
 
 int OLED_1in5_test(void) {
     printf("1.5inch OLED test demo\n");

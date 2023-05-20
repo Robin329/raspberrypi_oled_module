@@ -5,7 +5,7 @@
 * | Info        :
 *----------------
 * |	This version:   V1.0
-* | Date        :   2020-08-28
+* | Date        :   2023-05-20
 * | Info        :   在这里提供一个中文版本的使用文档，以便你的快速使用
 ******************************************************************************/
 这个文件是帮助您使用本例程。
@@ -13,8 +13,8 @@
 在这里简略的描述本工程的使用：
 
 1.基本信息：
-本例程基于树莓派4B+开发的，内核版本
-	Linux raspberrypi 5.4.51-v7l+ #1333 SMP Mon Aug 10 16:51:40 BST 2020 armv7l GNU/Linux
+本例程基于roc-pc-rk3399开发板开发的，内核版本
+	Linux robin 5.17.0-devel-g594ea1a8ad1d-dirty #28 SMP Sat May 20 08:05:52 UTC 2023 aarch64 GNU/Linux
 本例程可以在工程的examples\中查看对应的测试例程;
 
 2.管脚连接：
@@ -53,7 +53,7 @@ IIC:
 		sudo make clean
 		sudo make
 		sudo ./main 1.5rgb
-		
+
 栗子3：
     如果你购买的0.91inch OLED Module，注意由于该模块只有IIC接口，而例程默认是SPI，需要去Config.h中修改，即：
 		#define USE_SPI_4W 	1
@@ -65,7 +65,7 @@ IIC:
 		sudo make clean
 		sudo make
 		sudo ./main 0.91
-	
+
 
 4.目录结构（选读）：
 如果你经常使用我们的产品，对我们的程序目录结构会十分熟悉，关于具体的函数的我们有一份
@@ -99,23 +99,23 @@ Config\:此目录为硬件接口层文件，在DEV_Config.c(.h)可以看到很多定义，包括：
         UBYTE	System_Init(void);
         void	System_Exit(void);
         注意：1.这里是处理使用OLED前与使用完之后一些GPIO的处理。
-              
+
 GUI\:此目录为一些基本的图像处理函数，在GUI_Paint.c(.h)中：
     常用图像处理：创建图形、翻转图形、镜像图形、设置像素点、清屏等;
     常用画图处理：画点、线、框、圆、中文字符、英文字符、数字等;
     常用时间显示：提供一个常用的显示时间函数;
     常用显示图片：提供一个显示位图的函数;
-    
+
 Fonts\:为一些常用的字体：
     Ascii:
-        font8: 5*8 
+        font8: 5*8
         font12: 7*12
-        font16: 11*16 
-        font20: 14*20 
+        font16: 11*16
+        font20: 14*20
         font24: 17*24
     中文：
-        font12CN: 16*21 
+        font12CN: 16*21
         font24CN: 32*41
-        
+
 OLED\:此目录下为OLED驱动函数;
 Examples\:此目录下为OLED的测试程序，你可在其中看到具体的使用方法;

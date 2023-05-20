@@ -59,8 +59,7 @@ static void OLED_WriteReg(uint8_t Reg)
 #endif
 }
 
-static void OLED_WriteData(uint8_t Data)
-{   
+static void OLED_WriteData(uint8_t Data) {
 #if USE_SPI
     OLED_DC_1;
     DEV_SPI_WriteByte(Data);
@@ -79,29 +78,29 @@ static void OLED_InitReg(void)
 
     OLED_WriteReg(0x00);//---set low column address
     OLED_WriteReg(0x10);//---set high column address
-    
+
     OLED_WriteReg(0x20);
     OLED_WriteReg(0x00);
-        
+
     OLED_WriteReg(0xFF);
-    
+
     OLED_WriteReg(0xA6);
-    
-    OLED_WriteReg(0xA8); 
+
+    OLED_WriteReg(0xA8);
     OLED_WriteReg(0x3F);
-    
+
     OLED_WriteReg(0xD3);
     OLED_WriteReg(0x00);
-    
+
     OLED_WriteReg(0xD5);
     OLED_WriteReg(0x80);
-    
+
     OLED_WriteReg(0xD9);
     OLED_WriteReg(0x22);
 
     OLED_WriteReg(0xDA);
     OLED_WriteReg(0x12);
-    
+
     OLED_WriteReg(0xDB);
     OLED_WriteReg(0x40);
 
@@ -133,7 +132,7 @@ void OLED_1in51_Clear(void)
     // UWORD Width, Height;
     UWORD i, j;
     // Width = (OLED_1IN3_WIDTH % 8 == 0)? (OLED_1IN3_WIDTH / 8 ): (OLED_1IN3_WIDTH / 8 + 1);
-    // Height = OLED_1IN3_HEIGHT; 
+    // Height = OLED_1IN3_HEIGHT;
     for (i=0; i<8; i++) {
         /* set page address */
         OLED_WriteReg(0xB0 + i);
@@ -143,7 +142,7 @@ void OLED_1in51_Clear(void)
         OLED_WriteReg(0x10);
         for(j=0; j<128; j++) {
             /* write data */
-            OLED_WriteData(0x00);  
+            OLED_WriteData(0x00);
         }
 
     }
@@ -168,6 +167,6 @@ void OLED_1in51_Display(UBYTE *Image)
         for(column=0; column<128; column++) {
             temp = Image[(7-page) + column*8];
             OLED_WriteData(temp);
-        }       
+        }
     }
 }

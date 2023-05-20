@@ -1,0 +1,7 @@
+.vscode-ctags
+build/
+compile_commands.json
+*.o
+Rockchip/c/bin/
+Rockchip/c/main
+.cache/

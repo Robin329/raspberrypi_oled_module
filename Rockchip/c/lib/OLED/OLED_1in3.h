@@ -29,25 +29,23 @@
 #
 ******************************************************************************/
 #ifndef __OLED_1IN3_H
-#define __OLED_1IN3_H		
+#define __OLED_1IN3_H
 
 #include "DEV_Config.h"
 
 /********************************************************************************
-function:	
-		Define the full screen height length of the display
+function:
+        Define the full screen height length of the display
 ********************************************************************************/
-#define OLED_1IN3_WIDTH  64//OLED width
-#define OLED_1IN3_HEIGHT 128 //OLED height
+#define OLED_1IN3_WIDTH  64  // OLED width
+#define OLED_1IN3_HEIGHT 128 // OLED height
 
 /********************************************************************************
-function:	
-			Macro definition variable name
+function:
+            Macro definition variable name
 ********************************************************************************/
 void OLED_1IN3_Init(void);
 void OLED_1IN3_Clear(void);
 void OLED_1IN3_Display(UBYTE *Image);
 
-#endif  
-	 
-
+#endif

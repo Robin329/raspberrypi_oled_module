@@ -1,7 +1,7 @@
 /*****************************************************************************
 * | File      	:   test.h
 * | Author      :   Waveshare team
-* | Function    :   
+* | Function    :
 * | Info        :
 *
 *----------------
@@ -31,13 +31,13 @@
 #ifndef _TEST_H_
 #define _TEST_H_
 
-#include "DEV_Config.h"
-#include "GUI_Paint.h"
-#include "GUI_BMPfile.h"
-#include "Debug.h"
-
-#include <stdlib.h> // malloc() free()
 #include <math.h>
+#include <stdlib.h> // malloc() free()
+
+#include "DEV_Config.h"
+#include "Debug.h"
+#include "GUI_BMPfile.h"
+#include "GUI_Paint.h"
 
 int OLED_0in91_test(void);
 int OLED_0in95_rgb_test(void);

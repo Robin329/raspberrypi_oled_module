@@ -29,22 +29,20 @@
 #
 ******************************************************************************/
 #ifndef __OLED_1IN5_H
-#define __OLED_1IN5_H		
+#define __OLED_1IN5_H
 
 #include "DEV_Config.h"
 
 /********************************************************************************
-function:	
-		Define the full screen height length of the display
+function:
+        Define the full screen height length of the display
 ********************************************************************************/
 
-#define OLED_1in5_WIDTH  128//OLED width
-#define OLED_1in5_HEIGHT 128 //OLED height
-
+#define OLED_1in5_WIDTH  128 // OLED width
+#define OLED_1in5_HEIGHT 128 // OLED height
 
 void OLED_1in5_Init(void);
 void OLED_1in5_Clear(void);
 void OLED_1in5_Display(UBYTE *Image);
 
-#endif  
-	 
+#endif

@@ -138,10 +138,10 @@ int SYSFS_GPIO_Write(int Pin, int value)
     snprintf(path, DIR_MAXSIZ, "/sys/class/gpio/gpio%d/value", Pin);
     fd = open(path, O_WRONLY);
     if (fd < 0) {
-        SYSFS_GPIO_Debug( "Write failed : Pin%d,value = %d\n", Pin, value);
+        SYSFS_GPIO_Debug("Write failed : Pin=%d,value = %d\n", Pin, value);
         return -1;
     }
-
+    // printf("write /sys/class/gpio/gpio%d/value = %d\n", Pin, value);
     if (write(fd, &s_values_str[value == SYSFS_GPIO_LOW ? 0 : 1], 1) < 0) {
         SYSFS_GPIO_Debug( "failed to write value!\n");
         return -1;
