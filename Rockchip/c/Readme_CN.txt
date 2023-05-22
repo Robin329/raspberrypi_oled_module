@@ -20,14 +20,13 @@
 2.管脚连接：
 管脚连接你可以打开/lib/Config/DEV_Config.h查看，这里也再重述一次：
 SPI:
-	OLED   =>    RPI(BCM)
-	VCC    ->    3.3
-	GND    ->    GND
-	DIN    ->    10(MOSI)
-	CLK    ->    11(SCLK)
-	CS     ->    8
-	DC     ->    25
-	RST    ->    27
+    绿 - GPIO0_B4_d（12） - RST
+    棕色 - GPIO2_D4_d  （9）- DC
+    蓝 - GPIO2_C7(87) - CS
+    白色 - GPIO2_C5 - DIN
+    灰色 - GPIO2_C6 - CLK
+    黄 - VCC3.3 - VCC3.3
+    黑 - GND - GND
 
 IIC:
 	OLED   =>    RPI(BCM)
@@ -40,6 +39,21 @@ IIC:
 	RST    ->    27
 
 3.基本使用：
+3.1 roc-pc-rk3399 dts配置
+
+/* SSD1327 1.5 inch OLED module */
+&spi5 {
+	status = "okay";
+	ssd1327@0 {
+		compatible = "rockchip,ssd1327";
+		reg = <0>;
+		id = <0>;
+		spi-max-frequency = <25000000>;
+		status = "okay";
+	};
+};
+
+3.2 使用方法
 由于本工程是一个综合工程，对于使用而言，你可能需要阅读以下内容：
 请注意你购买的是哪一款的OLED。
 栗子1：

@@ -77,8 +77,8 @@ int OLED_1in5_test(void) {
 
         // Drawing on the image
         printf("Drawing:page 2\r\n");
-        for (UBYTE i = 0; i < 16; i++) {
-            Paint_DrawRectangle(0, 8 * i, 127, 8 * (i + 1), i, DOT_PIXEL_1X1, DRAW_FILL_FULL);
+        for (UBYTE i = 1; i < 16; i++) {
+            Paint_DrawRectangle(1, 8 * i, 127, 8 * (i + 1), i, DOT_PIXEL_1X1, DRAW_FILL_FULL);
         }
         // Show image on page2
         OLED_1in5_Display(BlackImage);
@@ -100,6 +100,14 @@ int OLED_1in5_test(void) {
         printf("Drawing:page 4\r\n");
         Paint_DrawString_CN(10, 0, "ÄãºÃAbc", &Font12CN, WHITE, WHITE);
         Paint_DrawString_CN(0, 20, "Î¢Ñ©µç×Ó", &Font24CN, WHITE, WHITE);
+        // Show image on page3
+        OLED_1in5_Display(BlackImage);
+        DEV_Delay_ms(2000);
+        Paint_Clear(BLACK);
+
+        printf("Drawing:page 4-1\r\n");
+        Paint_DrawString_CN(10, 0, "¹þ¹þ¹þ", &Font24CN, WHITE, WHITE);
+        Paint_DrawString_EN(20, 40, "--robin", &Font16, WHITE, WHITE);
         // Show image on page3
         OLED_1in5_Display(BlackImage);
         DEV_Delay_ms(2000);

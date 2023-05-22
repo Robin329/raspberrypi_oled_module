@@ -18,8 +18,6 @@
 
 #include "Debug.h"
 
-#define USE_SPI 1
-#define USE_IIC 0
 #define IIC_CMD 0X00
 #define IIC_RAM 0X40
 

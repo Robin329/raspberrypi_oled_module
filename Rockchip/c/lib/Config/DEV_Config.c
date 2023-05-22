@@ -77,12 +77,11 @@ UBYTE DEV_ModuleInit(void) {
 #ifdef USE_RK_LIB
     DEV_GPIO_Init();
 #if USE_SPI
-    // printf("USE_SPI\r\n");
+    printf("USE_SPI\r\n");
     DEV_HARDWARE_SPI_beginSet(SPI_DEV_NAME, SPI_MODE_3, 20000000);
 #elif USE_IIC
-    // printf("USE_IIC\r\n");
+    printf("USE_IIC\r\n");
     OLED_DC_0;
-    OLED_CS_0;
     DEV_HARDWARE_I2C_begin("/dev/i2c-1");
     DEV_HARDWARE_I2C_setSlaveAddress(0x3c);
 #endif
@@ -93,17 +92,14 @@ UBYTE DEV_ModuleInit(void) {
 void DEV_SPI_WriteByte(uint8_t Value) {
     // printf("Reg:%#x\r\n", Value);
 #ifdef USE_RK_LIB
-    // printf("write data is %d\r\n", Value);
     DEV_HARDWARE_SPI_TransferByte(Value);
 
 #endif
 }
 
 void DEV_SPI_Write_nByte(uint8_t *pData, uint32_t Len) {
-    // printf("data is %s", pData);
 #ifdef USE_RK_LIB
     DEV_HARDWARE_SPI_Transfer(pData, Len);
-
 #endif
 }
 
@@ -122,7 +118,6 @@ Info:
 ******************************************************************************/
 void DEV_ModuleExit(void) {
 #ifdef USE_RK_LIB
-    OLED_CS_0;
     OLED_RST_1;
     OLED_DC_0;
     DEV_HARDWARE_SPI_end();

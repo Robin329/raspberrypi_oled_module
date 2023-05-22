@@ -1,83 +1,83 @@
 /******************************************************************************
-* | File      	:   GUI_Paint.c
-* | Author      :   Waveshare electronics
-* | Function    :	Achieve drawing: draw points, lines, boxes, circles and
-*                   their size, solid dotted line, solid rectangle hollow
-*                   rectangle, solid circle hollow circle.
-* | Info        :
-*   Achieve display characters: Display a single character, string, number
-*   Achieve time display: adaptive size display time minutes and seconds
-* -----------------------------------------------------------------------------
-* |	This version:   V3.2
-* | Date        :   2020-08-17
-* | Info        :
-* -----------------------------------------------------------------------------
-* V3.2(2020-08-17):
-* 1.Change: Paint_SetScale(UBYTE scale)
-*        Add scale 65K
-* 2.Change: Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
-*        Add the branch for scale 65K
-* 3.Change: Paint_Clear(UWORD Color)
-*        Add the branch for scale 65K
-* -----------------------------------------------------------------------------
-* V3.1(2020-08-14):
-* 1.Change: Paint_SetScale(UBYTE scale)
-*        Add scale 16
-* 2.Change: Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
-*        Add the branch for scale 16
-* 3.Change: Paint_Clear(UWORD Color)
-*        Add the branch for scale 16
-* -----------------------------------------------------------------------------
-* V3.0(2019-04-18):
-* 1.Change: 
-*    Paint_DrawPoint(..., DOT_STYLE DOT_STYLE)
-* => Paint_DrawPoint(..., DOT_STYLE Dot_Style)
-*    Paint_DrawLine(..., LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
-* => Paint_DrawLine(..., DOT_PIXEL Line_width, LINE_STYLE Line_Style)
-*    Paint_DrawRectangle(..., DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
-* => Paint_DrawRectangle(..., DOT_PIXEL Line_width, DRAW_FILL Draw_Fill)
-*    Paint_DrawCircle(..., DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
-* => Paint_DrawCircle(..., DOT_PIXEL Line_width, DRAW_FILL Draw_Filll)
-*
-* -----------------------------------------------------------------------------
-* V2.0(2018-11-15):
-* 1.add: Paint_NewImage()
-*    Create an image's properties
-* 2.add: Paint_SelectImage()
-*    Select the picture to be drawn
-* 3.add: Paint_SetRotate()
-*    Set the direction of the cache    
-* 4.add: Paint_RotateImage() 
-*    Can flip the picture, Support 0-360 degrees, 
-*    but only 90.180.270 rotation is better
-* 4.add: Paint_SetMirroring() 
-*    Can Mirroring the picture, horizontal, vertical, origin
-* 5.add: Paint_DrawString_CN() 
-*    Can display Chinese(GB1312)   
-*
-* ----------------------------------------------------------------------------- 
-* V1.0(2018-07-17):
-*   Create library
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documnetation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to  whom the Software is
-* furished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS OR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*
-******************************************************************************/
+ * | File      	:   GUI_Paint.c
+ * | Author      :   Waveshare electronics
+ * | Function    :	Achieve drawing: draw points, lines, boxes, circles and
+ *                   their size, solid dotted line, solid rectangle hollow
+ *                   rectangle, solid circle hollow circle.
+ * | Info        :
+ *   Achieve display characters: Display a single character, string, number
+ *   Achieve time display: adaptive size display time minutes and seconds
+ * -----------------------------------------------------------------------------
+ * |	This version:   V3.2
+ * | Date        :   2020-08-17
+ * | Info        :
+ * -----------------------------------------------------------------------------
+ * V3.2(2020-08-17):
+ * 1.Change: Paint_SetScale(UBYTE scale)
+ *        Add scale 65K
+ * 2.Change: Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
+ *        Add the branch for scale 65K
+ * 3.Change: Paint_Clear(UWORD Color)
+ *        Add the branch for scale 65K
+ * -----------------------------------------------------------------------------
+ * V3.1(2020-08-14):
+ * 1.Change: Paint_SetScale(UBYTE scale)
+ *        Add scale 16
+ * 2.Change: Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
+ *        Add the branch for scale 16
+ * 3.Change: Paint_Clear(UWORD Color)
+ *        Add the branch for scale 16
+ * -----------------------------------------------------------------------------
+ * V3.0(2019-04-18):
+ * 1.Change:
+ *    Paint_DrawPoint(..., DOT_STYLE DOT_STYLE)
+ * => Paint_DrawPoint(..., DOT_STYLE Dot_Style)
+ *    Paint_DrawLine(..., LINE_STYLE Line_Style, DOT_PIXEL Dot_Pixel)
+ * => Paint_DrawLine(..., DOT_PIXEL Line_width, LINE_STYLE Line_Style)
+ *    Paint_DrawRectangle(..., DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
+ * => Paint_DrawRectangle(..., DOT_PIXEL Line_width, DRAW_FILL Draw_Fill)
+ *    Paint_DrawCircle(..., DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel)
+ * => Paint_DrawCircle(..., DOT_PIXEL Line_width, DRAW_FILL Draw_Filll)
+ *
+ * -----------------------------------------------------------------------------
+ * V2.0(2018-11-15):
+ * 1.add: Paint_NewImage()
+ *    Create an image's properties
+ * 2.add: Paint_SelectImage()
+ *    Select the picture to be drawn
+ * 3.add: Paint_SetRotate()
+ *    Set the direction of the cache
+ * 4.add: Paint_RotateImage()
+ *    Can flip the picture, Support 0-360 degrees,
+ *    but only 90.180.270 rotation is better
+ * 4.add: Paint_SetMirroring()
+ *    Can Mirroring the picture, horizontal, vertical, origin
+ * 5.add: Paint_DrawString_CN()
+ *    Can display Chinese(GB1312)
+ *
+ * -----------------------------------------------------------------------------
+ * V1.0(2018-07-17):
+ *   Create library
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documnetation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to  whom the Software is
+ * furished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS OR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ ******************************************************************************/
 #include "GUI_Paint.h"
 #include "DEV_Config.h"
 #include "Debug.h"
@@ -103,17 +103,15 @@ void Paint_NewImage(UBYTE *image, UWORD Width, UWORD Height, UWORD Rotate, UWORD
 
     Paint.WidthMemory = Width;
     Paint.HeightMemory = Height;
-    Paint.Color = Color;    
-	Paint.Scale = 2;
-		
+    Paint.Color = Color;
+    Paint.Scale = 2;
+
     Paint.WidthByte = (Width % 8 == 0)? (Width / 8 ): (Width / 8 + 1);
-    Paint.HeightByte = Height;    
-//    printf("WidthByte = %d, HeightByte = %d\r\n", Paint.WidthByte, Paint.HeightByte);
-//    printf(" EPD_WIDTH / 8 = %d\r\n",  122 / 8);
-   
+    Paint.HeightByte = Height;
+
     Paint.Rotate = Rotate;
     Paint.Mirror = MIRROR_NONE;
-    
+
     if(Rotate == ROTATE_0 || Rotate == ROTATE_180) {
         Paint.Width = Width;
         Paint.Height = Height;
@@ -158,10 +156,10 @@ void Paint_SetScale(UBYTE scale)
         Paint.WidthByte = (Paint.WidthMemory % 4 == 0)? (Paint.WidthMemory / 4 ): (Paint.WidthMemory / 4 + 1);
     }else if(scale ==16) {
         Paint.Scale = scale;
-        Paint.WidthByte = (Paint.WidthMemory%2==0) ? (Paint.WidthMemory/2) : (Paint.WidthMemory/2+1); 
+        Paint.WidthByte = (Paint.WidthMemory % 2 == 0) ? (Paint.WidthMemory / 2) : (Paint.WidthMemory / 2 + 1);
     }else if(scale ==65) {
         Paint.Scale = scale;
-        Paint.WidthByte = Paint.WidthMemory*2; 
+        Paint.WidthByte = Paint.WidthMemory * 2;
     }else{
         Debug("Set Scale Input parameter error\r\n");
         Debug("Scale Only support: 2 4 16 65\r\n");
@@ -174,14 +172,13 @@ parameter:
 ******************************************************************************/
 void Paint_SetMirroring(UBYTE mirror)
 {
-    if(mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL || 
-        mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN) {
+    if (mirror == MIRROR_NONE || mirror == MIRROR_HORIZONTAL || mirror == MIRROR_VERTICAL || mirror == MIRROR_ORIGIN) {
         Debug("mirror image x:%s, y:%s\r\n",(mirror & 0x01)? "mirror":"none", ((mirror >> 1) & 0x01)? "mirror":"none");
         Paint.Mirror = mirror;
     } else {
         Debug("mirror should be MIRROR_NONE, MIRROR_HORIZONTAL, \
         MIRROR_VERTICAL or MIRROR_ORIGIN\r\n");
-    }    
+    }
 }
 
 /******************************************************************************
@@ -194,15 +191,16 @@ parameter:
 void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
 {
     if(Xpoint > Paint.Width || Ypoint > Paint.Height){
-        Debug("Exceeding display boundaries\r\n");
+        Debug("Exceeding display boundaries (X,Y)=(%d, %d) (W, H)= (%d, %d)\r\n", Xpoint, Ypoint, Paint.Width,
+              Paint.Height);
         return;
-    }      
+    }
     UWORD X, Y;
 
     switch(Paint.Rotate) {
     case 0:
         X = Xpoint;
-        Y = Ypoint;  
+        Y = Ypoint;
         break;
     case 90:
         X = Paint.WidthMemory - Ypoint - 1;
@@ -219,7 +217,7 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
     default:
         return;
     }
-    
+
     switch(Paint.Mirror) {
     case MIRROR_NONE:
         break;
@@ -238,10 +236,11 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
     }
 
     if(X > Paint.WidthMemory || Y > Paint.HeightMemory){
-        Debug("Exceeding display boundaries\r\n");
+        Debug("Exceeding display boundaries (X,Y)=(%d, %d) (W, H)= (%d, %d)\r\n", X, Y, Paint.WidthMemory,
+              Paint.WidthMemory);
         return;
     }
-    
+
     if(Paint.Scale == 2){
         UDOUBLE Addr = X / 8 + Y * Paint.WidthByte;
         UBYTE Rdata = Paint.Image[Addr];
@@ -253,7 +252,7 @@ void Paint_SetPixel(UWORD Xpoint, UWORD Ypoint, UWORD Color)
         UDOUBLE Addr = X / 4 + Y * Paint.WidthByte;
         Color = Color % 4;//Guaranteed color scale is 4  --- 0~3
         UBYTE Rdata = Paint.Image[Addr];
-        
+
         Rdata = Rdata & (~(0xC0 >> ((X % 4)*2)));
         Paint.Image[Addr] = Rdata | ((Color << 6) >> ((X % 4)*2));
     }else if(Paint.Scale == 16) {
@@ -341,7 +340,7 @@ void Paint_DrawPoint(UWORD Xpoint, UWORD Ypoint, UWORD Color,
         return;
     }
 
-    int16_t XDir_Num , YDir_Num;
+    int16_t XDir_Num, YDir_Num;
     if (Dot_Style == DOT_FILL_AROUND) {
         for (XDir_Num = 0; XDir_Num < 2 * Dot_Pixel - 1; XDir_Num++) {
             for (YDir_Num = 0; YDir_Num < 2 * Dot_Pixel - 1; YDir_Num++) {
@@ -382,6 +381,7 @@ void Paint_DrawLine(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend,
 
     UWORD Xpoint = Xstart;
     UWORD Ypoint = Ystart;
+
     int dx = (int)Xend - (int)Xstart >= 0 ? Xend - Xstart : Xstart - Xend;
     int dy = (int)Yend - (int)Ystart <= 0 ? Yend - Ystart : Ystart - Yend;
 
@@ -739,30 +739,30 @@ void Paint_DrawNum(UWORD Xpoint, UWORD Ypoint, double Nummber,
         return;
     }
 
-	if(Digit > 0) {		
-		decimals = Nummber - temp;
-		for(i=Digit; i > 0; i--) {
-			decimals*=10;
-		}
-		temp = decimals;
-		//Converts a number to a string
-		for(i=Digit; i>0; i--) {
-			Num_Array[Num_Bit] = temp % 10 + '0';
+    if (Digit > 0) {
+        decimals = Nummber - temp;
+        for (i = Digit; i > 0; i--) {
+            decimals *= 10;
+        }
+        temp = decimals;
+        // Converts a number to a string
+        for (i = Digit; i > 0; i--) {
+            Num_Array[Num_Bit] = temp % 10 + '0';
 			Num_Bit++;
-			temp /= 10;						
-		}	
-		Num_Array[Num_Bit] = '.';
-		Num_Bit++;
-	}
+            temp /= 10;
+        }
+        Num_Array[Num_Bit] = '.';
+        Num_Bit++;
+    }
 
-	temp = Nummber;
+    temp = Nummber;
     //Converts a number to a string
     while (temp) {
         Num_Array[Num_Bit] = temp % 10 + '0';
         Num_Bit++;
         temp /= 10;
     }
-		
+
     //The string is inverted
     while (Num_Bit > 0) {
         Str_Array[Str_Bit] = Num_Array[Num_Bit - 1];

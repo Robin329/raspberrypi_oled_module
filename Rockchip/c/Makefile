@@ -19,6 +19,7 @@ endif
 
 LIB += -lm
 DEBUG += -DUSE_SPI=1
+# DEBUG += -DUSE_IIC=1
 CC = aarch64-linux-gnu-gcc
 MSG = -g -O0 -Wall
 CFLAGS += $(MSG) $(DEBUG)
